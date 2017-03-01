@@ -157,6 +157,7 @@
     </profile>
 
 
+
     <!-- grid on localhost. Starting sequence -> First Run. If it already started - Connect to existing  -->
     <profile>
       <id>Grid on localhost. Connect to existing</id>
