@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Corevalue test task " verbose="5" parallel="false">
+
+    <listeners>
+        <listener class-name="aqa.TestNGListener"/>
+    </listeners>
+
+ <parameter name="monthlyPaymentsResult" value="836.75"></parameter>
+ <parameter name="interestRate" value="5"></parameter>
+ <parameter name="paymentFrequency" value="weekly"></parameter>
+ <parameter name="amortization" value="15 years"></parameter>
+ <parameter name="downPayment" value="50000"></parameter>
+ <parameter name="language" value="EN"></parameter>
+ <parameter name="partOfTitleInIndividualsPage" value="Insurance"></parameter>
+ <parameter name="partOfTitleInMortagePaymentCalculatorPage" value="Payment Calculator"></parameter>
+
+  <test name="Test simple task">
+    <classes>
+      <class name="aqa.TestE2E"/>
+    </classes>
+  </test>
+
+</suite>
