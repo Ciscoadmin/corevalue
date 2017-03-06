@@ -1,0 +1,1 @@
+# Added Allure report
