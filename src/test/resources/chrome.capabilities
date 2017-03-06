@@ -1,1 +1,2 @@
 browserName=chrome
+ChromeOptions= --start-maximized --lang=en-US

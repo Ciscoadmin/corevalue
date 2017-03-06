@@ -4,60 +4,89 @@
   <groupId>aqa</groupId>
   <artifactId>corevalue</artifactId>
   <version>1.0</version>
-  <packaging>jar</packaging>
+  <!--<packaging>jar</packaging>-->
 
 
   <properties>
     <java-version>1.8</java-version>
-
     <!-- Project properties -->
     <remote.grid.url>http://docker1.westeurope.cloudapp.azure.com:4444/wd/hub/</remote.grid.url>
     <target.site>http://www.ia.ca/</target.site>
     <highlight>false</highlight>
+    <!-- For Allure reporting -->
+    <aspectj.version>1.8.10</aspectj.version>
+    <allure.version>1.5.2</allure.version>
+    <allure-maven.version>2.5</allure-maven.version>
+    <!-- Others -->
+    <testng.version>6.9.10</testng.version>
+    <selenium.version>2.53.1</selenium.version>
+    <webdriver-factory.version>2.1</webdriver-factory.version>
+    <hamcrest.version>1.3</hamcrest.version>
+    <logback.version>1.2.1</logback.version>
+    <slf4j.version>1.7.22</slf4j.version>
+    <exec-maven.version>1.5.0</exec-maven.version>
+    <maven-resources.version>2.7</maven-resources.version>
+    <maven-surefire.version>2.19.1</maven-surefire.version>
+    <maven-compiler.version>3.5.1</maven-compiler.version>
+    <jetty-maven.version>9.4.2.v20170220</jetty-maven.version>
 
   </properties>
+
 
   <dependencies>
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>6.9.10</version>
+      <version>${testng.version}</version>
     </dependency>
     <dependency>
       <groupId>ru.stqa.selenium</groupId>
       <artifactId>webdriver-factory</artifactId>
-      <version>2.1</version>
+      <version>${webdriver-factory.version}</version>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
-      <version>2.53.1</version>
+      <version>${selenium.version}</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-all -->
     <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-all</artifactId>
-      <version>1.3</version>
+      <version>${hamcrest.version}</version>
     </dependency>
 
     <!-- Logback + slf4j -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-core</artifactId>
-      <version>1.2.1</version>
+      <version>${logback.version}</version>
     </dependency>
 
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.2.1</version>
+      <version>${logback.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.7.22</version>
+      <version>${slf4j.version}</version>
+    </dependency>
+
+    <!-- For Allure -->
+    <dependency>
+      <groupId>ru.yandex.qatools.allure</groupId>
+      <artifactId>allure-testng-adaptor</artifactId>
+      <version>${allure.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
   </dependencies>
@@ -79,14 +108,30 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>2.7</version>
+        <version>${maven-resources.version}</version>
         <configuration>
           <encoding>UTF-8</encoding>
         </configuration>
-      </plugin> 
+      </plugin>
+
+      <!-- Pure TestNG style report-->
+      <!--<plugin>-->
+        <!--<artifactId>maven-surefire-plugin</artifactId>-->
+        <!--<version>2.19.1</version>-->
+        <!--<configuration>-->
+          <!--<suiteXmlFiles>-->
+            <!--<suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>-->
+          <!--</suiteXmlFiles>-->
+          <!--<systemPropertyVariables>-->
+            <!--<application.properties>/application.properties</application.properties>-->
+          <!--</systemPropertyVariables>-->
+        <!--</configuration>-->
+      <!--</plugin>-->
+
+      <!-- Common reporting section -->
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.19.1</version>
+        <version>${maven-surefire.version}</version>
         <configuration>
           <suiteXmlFiles>
             <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
@@ -94,11 +139,37 @@
           <systemPropertyVariables>
             <application.properties>/application.properties</application.properties>
           </systemPropertyVariables>
+          <!-- For Allure reporting section-->
+          <testFailureIgnore>false</testFailureIgnore>
+          <argLine>
+            -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
+          </argLine>
+        </configuration>
+        <!-- For Allure reporting section-->
+        <dependencies>
+          <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <!--Needed only to show reports locally. Run jetty:run and open localhost:8080 to show the report-->
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <version>${jetty-maven.version}</version>
+        <configuration>
+          <webAppSourceDirectory>${project.build.directory}/site/allure-maven-plugin</webAppSourceDirectory>
+          <stopKey>stop</stopKey>
+          <stopPort>1234</stopPort>
         </configuration>
       </plugin>
+
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.5.1</version>
+        <version>${maven-compiler.version}</version>
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
@@ -106,8 +177,10 @@
       </plugin>
     </plugins>
   </build>
+
   <!-- profiles -->
   <profiles>
+
     <!-- browsers -->
 
     <!-- WE NEED ONLY CHROME AS IT IS DESCRIBED IN TASK -->
@@ -181,7 +254,7 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
-            <version>1.3.1</version>
+            <version>${exec-maven.version}</version>
             <executions>
               <execution>
                 <id>Run_Selenium_Hub</id>
@@ -204,4 +277,17 @@
     </profile>
 
   </profiles>
+
+  <!-- For Allure reporting-->
+  <reporting>
+    <excludeDefaults>true</excludeDefaults>
+    <plugins>
+      <plugin>
+        <groupId>ru.yandex.qatools.allure</groupId>
+        <artifactId>allure-maven-plugin</artifactId>
+        <version>${allure-maven.version}</version>
+      </plugin>
+    </plugins>
+  </reporting>
+
 </project>

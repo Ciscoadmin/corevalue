@@ -3,6 +3,10 @@ package aqa;
 import aqa.util.PropertyLoader;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
@@ -40,7 +44,17 @@ public class BaseTest {
   @BeforeMethod
   public void initWebDriver() {
     driver = WebDriverFactory.getDriver(gridHubUrl, capabilities);
-    driver.manage().window().maximize();
+
+//    System.setProperty("webdriver.chrome.driver","C:\\corevalue\\env\\chromedriver.exe");
+//    ChromeOptions options = new ChromeOptions();
+//    options.addArguments("--start-maximized");
+//    options.addArguments("--lang=en-US");
+//    DesiredCapabilities capability = DesiredCapabilities.chrome();
+//    capability.setBrowserName("chrome");
+//    capability.setCapability(ChromeOptions.CAPABILITY, options);
+//    driver = new ChromeDriver(capability);
+//    driver.manage().window().maximize();
+
     driver.manage().timeouts().implicitlyWait(timeToTimeout, TimeUnit.SECONDS);
   }
 

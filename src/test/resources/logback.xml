@@ -18,7 +18,7 @@
             <Pattern>
                 <!--%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n-->
                 <!--%date %level [%thread] %logger{50} [%file:%line] %msg%n-->
-                %date %level  %logger{50}  %msg%n
+                %date %level [%thread] %logger{50}  %msg%n
             </Pattern>
         </encoder>
     </appender>
@@ -28,7 +28,7 @@
              ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder>
             <!--<pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} [%file:%line] - %msg%n</pattern>-->
-            <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36}  - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS}  %-5level [%thread] %logger{36}  - %msg%n</pattern>
         </encoder>
     </appender>
 

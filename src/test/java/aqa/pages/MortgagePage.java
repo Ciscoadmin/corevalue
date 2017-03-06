@@ -13,6 +13,9 @@ public class MortgagePage extends Page {
     @FindBy(how = How.XPATH, using = "//*[@class='btn-full' and @data-utag-name='calculate_your_payments']")
     public WebElement mortgagePaymentCalculatorButton;
 
+    public void switchToPaymentCalculatorPage() {
+        mortgagePaymentCalculatorButton.click();
+    }
 
     public MortgagePage(WebDriver driver) {
         super(driver);

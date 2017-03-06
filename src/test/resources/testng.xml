@@ -15,7 +15,7 @@
  <parameter name="partOfTitleInIndividualsPage" value="Insurance"></parameter>
  <parameter name="partOfTitleInMortagePaymentCalculatorPage" value="Payment Calculator"></parameter>
 
-  <test name="Test simple task">
+  <test name="Test Mortgage Payment Calculator">
     <classes>
       <class name="aqa.TestE2E"/>
     </classes>

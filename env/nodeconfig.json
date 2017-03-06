@@ -19,6 +19,7 @@
       ],
   "configuration":
   {
+    "_comment" : "Configuration for Node",
     "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
     "nodeTimeout":120,
 	"port":5555,

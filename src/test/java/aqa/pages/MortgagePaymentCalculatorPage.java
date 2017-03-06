@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.ui.Select;
 
 /**
  * Created by dbolgarov on 2/28/2017.
@@ -56,6 +57,31 @@ public class MortgagePaymentCalculatorPage extends Page {
                 return true;
             }else return false;
         } else return false;
+    }
+
+    /** Calculate Mortgage Payment
+     *
+     * By default  Purchase price set to 500000
+     *
+     * @param downPayment
+     * @param amortization
+     * @param paymentFrequency
+     * @param interestRate
+     */
+    public void fillDataToTheMortgagePaymentCalculator(String downPayment, String amortization, String paymentFrequency, String interestRate){
+        plusPurchaseButton.click();
+        plusPurchaseButton.click();
+
+        downPaymentInput.clear();
+        downPaymentInput.sendKeys("\b"+downPayment);
+
+        new Select(paymentFrequencySelect).selectByVisibleText(paymentFrequency);
+        new Select(amortizationSelect).selectByVisibleText(amortization);
+
+        interestRateInput.clear();
+        interestRateInput.sendKeys(interestRate);
+
+        calculateButton.click();
     }
 
     public MortgagePaymentCalculatorPage(WebDriver driver) {

@@ -16,7 +16,10 @@ public class IndividualsPage extends Page {
     @FindBy(how = How.XPATH, using = "//*[@data-utag-name='mortgage_loan']")
     public WebElement mortageLink;
 
-
+    public void openMortgagePageByClickingOnLinkInMenu(){
+       loans.click();
+       mortageLink.click();
+       }
 
     public IndividualsPage(WebDriver driver) {
         super(driver);

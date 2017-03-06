@@ -2,6 +2,7 @@ package aqa.util;
 
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
@@ -34,7 +35,13 @@ public class PropertyLoader {
         capabilities.setCapability(name, Boolean.valueOf(value));
       } else if (value.startsWith("file:")) {
         capabilities.setCapability(name, new File(".", value.substring(5)).getCanonicalFile().getAbsolutePath());
-      } else {
+      } else if (name.toLowerCase().startsWith("chromeoptions")) {  //for fixing issue in non-English windows
+        ChromeOptions options = new ChromeOptions();
+        for (String v : value.split(" ")) {
+          options.addArguments(v);
+        }
+        capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+      }else {
         capabilities.setCapability(name, value);
       }
     }
