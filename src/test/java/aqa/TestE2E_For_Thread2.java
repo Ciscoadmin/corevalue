@@ -4,13 +4,10 @@ import aqa.pages.IndividualsPage;
 import aqa.pages.MainPage;
 import aqa.pages.MortgagePage;
 import aqa.pages.MortgagePaymentCalculatorPage;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
@@ -18,14 +15,13 @@ import org.testng.annotations.Test;
 import ru.yandex.qatools.allure.annotations.*;
 import ru.yandex.qatools.allure.model.SeverityLevel;
 
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.StringContains.containsString;
 
 
-public class TestE2E extends BaseTest {
+public class TestE2E_For_Thread2 extends BaseTest {
 
   private IndividualsPage individualsPage;
   private MainPage mainPage;

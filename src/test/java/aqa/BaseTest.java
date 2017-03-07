@@ -7,6 +7,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
@@ -25,6 +28,9 @@ public class BaseTest {
   protected static String baseUrl;
   protected static Capabilities capabilities;
   protected static Integer timeToTimeout;
+
+  private String getLoggerName= "-=WebDriverFactory=-";
+  private Logger logger = LoggerFactory.getLogger(getLoggerName);
 
   protected WebDriver driver;
 
@@ -63,5 +69,12 @@ public class BaseTest {
     WebDriverFactory.dismissAll();
   }
 
+  public void printUsingEnvInfo(){
+    Capabilities cap = ((RemoteWebDriver) driver).getCapabilities();
+    String browserName = cap.getBrowserName();
+    String os = cap.getPlatform().toString();
+    String browserVersion = cap.getVersion();
+    logger.debug("Tests run on  platform = " + os + " with Browser = " + browserName + " "+ browserVersion);
+  }
 
 }

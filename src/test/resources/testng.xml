@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Corevalue test task " verbose="5" parallel="false">
+<suite name="Corevalue test task " verbose="5" parallel="tests" thread-count="2">
 
     <listeners>
         <listener class-name="aqa.TestNGListener"/>
@@ -20,5 +20,11 @@
       <class name="aqa.TestE2E"/>
     </classes>
   </test>
+
+    <test name="the same test for second Thread">
+        <classes>
+            <class name="aqa.TestE2E_For_Thread2"/>
+        </classes>
+    </test>
 
 </suite>

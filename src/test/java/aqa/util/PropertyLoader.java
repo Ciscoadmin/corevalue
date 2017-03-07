@@ -25,25 +25,42 @@ public class PropertyLoader {
     props.load(PropertyLoader.class.getResourceAsStream(fromResource));
     String capabilitiesFile = props.getProperty("capabilities");
 
-    Properties capsProps = new Properties();
+    boolean chromeOptionsSet=false;
+    ChromeOptions options = new ChromeOptions();
+
+    Properties capsProps =    new Properties();
     capsProps.load(PropertyLoader.class.getResourceAsStream(capabilitiesFile));
 
     DesiredCapabilities capabilities = new DesiredCapabilities();
+
+     if (System.getProperty("ChromeOptions")!=null){// for e.g. mvn  test "-DChromeOptions=--start-maximized --lang=en-US"
+          for (String v2 : System.getProperty("ChromeOptions").split(" ")) {
+            options.addArguments(v2);
+          }
+      chromeOptionsSet=true;
+    }
+
     for (String name : capsProps.stringPropertyNames()) {
       String value = capsProps.getProperty(name);
       if (value.toLowerCase().equals("true") || value.toLowerCase().equals("false")) {
         capabilities.setCapability(name, Boolean.valueOf(value));
       } else if (value.startsWith("file:")) {
         capabilities.setCapability(name, new File(".", value.substring(5)).getCanonicalFile().getAbsolutePath());
-      } else if (name.toLowerCase().startsWith("chromeoptions")) {  //for fixing issue in non-English windows
-        ChromeOptions options = new ChromeOptions();
-        for (String v : value.split(" ")) {
-          options.addArguments(v);
-        }
-        capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+      } else if (name.toLowerCase().startsWith("chromeoptions")){  //for fixing issue in non-English windows
+
+          for (String v : value.split(" ")) {
+            options.addArguments(v);
+          }
+
+        chromeOptionsSet=true;
+
       }else {
         capabilities.setCapability(name, value);
       }
+    }
+
+    if (chromeOptionsSet){
+      capabilities.setCapability(ChromeOptions.CAPABILITY, options);
     }
 
     return capabilities;
