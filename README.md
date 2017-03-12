@@ -1,6 +1,9 @@
 # Added Allure report
 
-you can specify which chrome browser options  to use by using the following switch:
+#### Other changes:
+- MultiThreading
+- you can specify which chrome browser options to use by using the following switch:
 
-"-DChromeOptions=--start-maximized --lang=en-US"
+```sh
+ e.g. "-DChromeOptions=--start-maximized --lang=en-US"
 

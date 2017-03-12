@@ -10,13 +10,19 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.ReporterConfig;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import ru.stqa.selenium.factory.WebDriverFactory;
 import ru.stqa.selenium.factory.WebDriverFactoryMode;
+import ru.yandex.qatools.allure.annotations.Parameter;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -24,13 +30,20 @@ import java.util.concurrent.TimeUnit;
  */
 public class BaseTest {
 
+  @Parameter("Grid hub url")
   protected static String gridHubUrl;
+
+  @Parameter("Base web driver url")
   protected static String baseUrl;
+
   protected static Capabilities capabilities;
+
+  @Parameter("Timeout in sec for WebDriver")
   protected static Integer timeToTimeout;
 
   private String getLoggerName= "-=WebDriverFactory=-";
   private Logger logger = LoggerFactory.getLogger(getLoggerName);
+  private Properties env = new Properties();
 
   protected WebDriver driver;
 
@@ -67,14 +80,40 @@ public class BaseTest {
   @AfterSuite(alwaysRun = true)
   public void tearDown() {
     WebDriverFactory.dismissAll();
+    saveEnvironmentsToFileForAllureReport();
   }
+
 
   public void printUsingEnvInfo(){
     Capabilities cap = ((RemoteWebDriver) driver).getCapabilities();
-    String browserName = cap.getBrowserName();
-    String os = cap.getPlatform().toString();
-    String browserVersion = cap.getVersion();
-    logger.debug("Tests run on  platform = " + os + " with Browser = " + browserName + " "+ browserVersion);
+
+    env.setProperty("Browser Name",cap.getBrowserName());
+    env.setProperty("Browser Version",cap.getVersion());
+    env.setProperty("Platform",cap.getPlatform().toString());
+    logger.debug("Tests run on  platform = " + env.getProperty("Platform") + " with Browser = " + env.getProperty("Browser Name") + " "+ env.getProperty("Browser Version"));
+
+//    String browserName = cap.getBrowserName();
+//    String os = cap.getPlatform().toString();
+//    String browserVersion = cap.getVersion();
+//    logger.debug("Tests run on  platform = " + os + " with Browser = " + browserName + " "+ browserVersion);
+
   }
+
+  public void saveEnvironmentsToFileForAllureReport(){
+
+    File file = Paths.get(System.getProperty("user.dir"),"/target/allure-results").toAbsolutePath().toFile();
+
+    if (!file.exists()){
+      System.out.println("Created dirs: "+file.mkdirs());
+    }
+
+    try (FileWriter out = new FileWriter("./target/allure-results/environment.properties")) {
+        env.store(out,"Environment variables for Allure report");
+    }catch(IOException e){
+        System.out.println(e.getMessage());
+      }
+
+  }
+
 
 }

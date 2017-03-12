@@ -171,8 +171,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler.version}</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.7</source>
+          <target>1.7</target>
           <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
@@ -287,6 +287,12 @@
         <groupId>ru.yandex.qatools.allure</groupId>
         <artifactId>allure-maven-plugin</artifactId>
         <version>${allure-maven.version}</version>
+      <configuration>
+        <properties>
+          <allure.issues.tracker.pattern>https://github.com/Ciscoadmin/corevalue/issues/%s</allure.issues.tracker.pattern>
+          <allure.tests.management.pattern>https://github.com/Ciscoadmin/corevalue/wiki/%s</allure.tests.management.pattern>
+        </properties>
+      </configuration>
       </plugin>
     </plugins>
   </reporting>
